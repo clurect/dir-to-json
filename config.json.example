@@ -1,0 +1,4 @@
+{
+	"directory":"",
+	"ignores": [".git","readme.md"]
+}

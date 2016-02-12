@@ -1,8 +1,11 @@
 var fs = require('fs');
 var path = require('path');
-var ignores = ['.git', 'readme.md'];
+
+var config = JSON.parse(fs.readFileSync('config.json').toString());
+var ignores = config.ignores;//['.git', 'readme.md'];
+
 // var stream = fs.createWriteStream("out.json");
-var diretoryTreeToObj = function(dir, done) {
+var dirToJson = function(dir, done) {
     var results = [];
 
     fs.readdir(dir, function(err, list) {
@@ -23,7 +26,7 @@ var diretoryTreeToObj = function(dir, done) {
             file = path.resolve(dir, file);
             fs.stat(file, function(err, stat) {
                 if (stat && stat.isDirectory()) {
-                    diretoryTreeToObj(file, function(err, res) {
+                    dirToJson(file, function(err, res) {
                         results.push({
                             name: path.basename(file),
                             type: 'folder',
@@ -59,11 +62,11 @@ var diretoryTreeToObj = function(dir, done) {
 };
 
 
-var dirTree = ('../CFTemplatesLibrary');
+var dirTree = config.directory;
 
-diretoryTreeToObj(dirTree, function(err, res){
+dirToJson(dirTree, function(err, res){
     if(err)
         console.error(err);
     fs.writeFile('out.json',JSON.stringify(res,null,2));
-    //console.log(JSON.stringify(res));
+    
 });
