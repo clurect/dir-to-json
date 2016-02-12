@@ -67,6 +67,6 @@ var dirTree = config.directory;
 dirToJson(dirTree, function(err, res){
     if(err)
         console.error(err);
-    fs.writeFile('out.json',JSON.stringify(res,null,2));
+    fs.writeFile(config.out,JSON.stringify(res,null,2));
     
 });
