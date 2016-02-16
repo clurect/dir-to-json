@@ -3,7 +3,8 @@ var path = require('path');
 
 var config = JSON.parse(fs.readFileSync('config.json').toString());
 var ignores = config.ignores;//['.git', 'readme.md'];
-
+var mongoConfig = JSON.parse(fs.readFileSync('mongo_config.json').toString());
+var mongo = require('./db');
 // var stream = fs.createWriteStream("out.json");
 var dirToJson = function(dir, done) {
     var results = [];
@@ -67,6 +68,13 @@ var dirTree = config.directory;
 dirToJson(dirTree, function(err, res){
     if(err)
         console.error(err);
-    fs.writeFile(config.out,JSON.stringify(res,null,2));
+    var stringRes = JSON.stringify(res,null,2);
+    fs.writeFile(config.out,stringRes);
+    
+    mongo.importJSON(mongoConfig.hostAddress, mongoConfig.hostPort, mongoConfig.authentication, mongoConfig.db, mongoConfig.collection, res, function() {
+        console.log('program complete');
+        return;
+    });
+
     
 });

@@ -1,0 +1,11 @@
+{
+	"hostAddress":"",
+	"hostPort":"",
+	"db":"",
+	"collection":"",
+	"authentication": {
+		"user":"",
+		"password":"",
+		"authenticationDB":""
+	}
+}
