@@ -41,7 +41,7 @@ var dirToJson = function(dir, done) {
                     if (path.extname(file) === '.json') {
                         var contents = '';
                         try {
-                            contents = JSON.parse(fs.readFileSync(file, 'utf8').toString());
+                            contents = fs.readFileSync(file, 'utf8').toString();
                         }
                         catch(err) {
                             console.log(err + " when reading " + path.basename(file));
